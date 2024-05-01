@@ -3,25 +3,48 @@ using JumpKing.PauseMenu.BT.Actions;
 using JumpKing.PauseMenu;
 using JumpKing.Player;
 using EntityComponent;
+using System.ComponentModel;
+using System.IO;
+using JumpKing_GamepadVibration.Model;
+using System;
+using System.Reflection;
 
 namespace JumpKing_GamepadVibration
 {
     [JumpKingMod("YutaGoto.JumpKing_GamepadVibration")]
     public static class ModEntry
     {
-        public static bool isEnabled;
+
+        public const string SETTINS_FILE = "YutaGoto.GamepadVibration.Settings.xml";
+        private static string AssemblyPath { get; set; }
+        public static Preferences Preferences { get; private set; }
 
         [MainMenuItemSetting]
+        [PauseMenuItemSetting]
         public static ITextToggle AddToggleEnabled(object factory, GuiFormat format)
         {
-            return new NodeToggleEnabled(isEnabled);
+            return new NodeToggleEnabled();
         }
 
         /// <summary>
         /// Called by Jump King before the level loads
         /// </summary>
         [BeforeLevelLoad]
-        public static void BeforeLevelLoad(){ }
+        public static void BeforeLevelLoad()
+        {
+            AssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            try
+            {
+                Preferences = XmlSerializerHelper.Deserialize<Preferences>(AssemblyPath + "\\" + SETTINS_FILE);
+            }
+            catch (Exception)
+            {
+                Preferences = new Preferences();
+                XmlSerializerHelper.Serialize(AssemblyPath + "\\" + SETTINS_FILE, Preferences);
+            }
+
+            Preferences.PropertyChanged += SaveSettingsOnFile;
+        }
 
         /// <summary>
         /// Called by Jump King when the level unloads
@@ -35,12 +58,11 @@ namespace JumpKing_GamepadVibration
         [OnLevelStart]
         public static void OnLevelStart()
         {
-            if (!isEnabled) return;
             PlayerEntity player = EntityManager.instance.Find<PlayerEntity>();
 
             if (player != null)
             {
-                player.m_body.RegisterBehaviour(new VibrationBehaviour());
+                player.m_body.RegisterBehaviour(new Behaviour.Vibration());
             }
         }
 
@@ -49,5 +71,17 @@ namespace JumpKing_GamepadVibration
         /// </summary>
         [OnLevelEnd]
         public static void OnLevelEnd() { }
+
+        private static void SaveSettingsOnFile(object sender, PropertyChangedEventArgs args)
+        {
+            try
+            {
+                XmlSerializerHelper.Serialize(AssemblyPath + "\\YutaGoto.GamepadVibration.Settings.xml", Preferences);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
     }
 }
