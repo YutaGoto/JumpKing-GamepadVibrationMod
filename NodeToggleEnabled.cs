@@ -4,10 +4,10 @@ namespace JumpKing_GamepadVibration
 {
     public class NodeToggleEnabled: ITextToggle
     {
-        public NodeToggleEnabled(bool p_start_value) : base(p_start_value) { }
+        public NodeToggleEnabled() : base(ModEntry.Preferences.IsEnabled) { }
 
         protected override string GetName() => "Enable";
 
-        protected override void OnToggle() => ModEntry.isEnabled = toggle;
+        protected override void OnToggle() => ModEntry.Preferences.IsEnabled = toggle;
     }
 }

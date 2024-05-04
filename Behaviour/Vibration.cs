@@ -4,15 +4,17 @@ using JumpKing.Player;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace JumpKing_GamepadVibration
+namespace JumpKing_GamepadVibration.Behaviour
 {
-    public class VibrationBehaviour : IBodyCompBehaviour
+    public class Vibration : IBodyCompBehaviour
     {
         private bool isLanded = false;
 
         public bool ExecuteBehaviour(BehaviourContext behaviourContext)
         {
             BodyComp bodyComp = behaviourContext.BodyComp;
+
+            if (!ModEntry.Preferences.IsEnabled) return true;
 
             if (bodyComp.IsOnGround)
             {
