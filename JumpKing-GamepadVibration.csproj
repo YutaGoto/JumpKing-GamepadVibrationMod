@@ -49,9 +49,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Preferences.cs" />
+    <Compile Include="Menu\ToggleIsKnocked.cs" />
+    <Compile Include="Menu\ToggleIsLanded.cs" />
+    <Compile Include="Preferences.cs" />
+    <Compile Include="Model\Preference.cs" />
     <Compile Include="ModEntry.cs" />
-    <Compile Include="NodeToggleEnabled.cs" />
+    <Compile Include="Menu\ToggleEnabled.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Behaviour\Vibration.cs" />
   </ItemGroup>

@@ -8,6 +8,7 @@ using System.IO;
 using JumpKing_GamepadVibration.Model;
 using System;
 using System.Reflection;
+using JumpKing_GamepadVibration.Menu;
 
 namespace JumpKing_GamepadVibration
 {
@@ -17,13 +18,26 @@ namespace JumpKing_GamepadVibration
 
         public const string SETTINS_FILE = "YutaGoto.GamepadVibration.Settings.xml";
         private static string AssemblyPath { get; set; }
-        public static Preferences Preferences { get; private set; }
 
         [MainMenuItemSetting]
         [PauseMenuItemSetting]
         public static ITextToggle AddToggleEnabled(object factory, GuiFormat format)
         {
-            return new NodeToggleEnabled();
+            return new ToggleEnabled();
+        }
+
+        [MainMenuItemSetting]
+        [PauseMenuItemSetting]
+        public static ITextToggle AddToggleIsLanded(object factory, GuiFormat format)
+        {
+            return new ToggleIsLanded();
+        }
+
+        [MainMenuItemSetting]
+        [PauseMenuItemSetting]
+        public static ITextToggle AddToggleIsKnocked(object factory, GuiFormat format)
+        {
+            return new ToggleIsKnocked();
         }
 
         /// <summary>
@@ -35,15 +49,15 @@ namespace JumpKing_GamepadVibration
             AssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             try
             {
-                Preferences = XmlSerializerHelper.Deserialize<Preferences>(AssemblyPath + "\\" + SETTINS_FILE);
+                Preference.Preferences = XmlSerializerHelper.Deserialize<Preferences>(AssemblyPath + "\\" + SETTINS_FILE);
             }
             catch (Exception)
             {
-                Preferences = new Preferences();
-                XmlSerializerHelper.Serialize(AssemblyPath + "\\" + SETTINS_FILE, Preferences);
+                Preference.Preferences = new Preferences();
+                XmlSerializerHelper.Serialize(AssemblyPath + "\\" + SETTINS_FILE, Preference.Preferences);
             }
 
-            Preferences.PropertyChanged += SaveSettingsOnFile;
+            Preference.Preferences.PropertyChanged += SaveSettingsOnFile;
         }
 
         /// <summary>
@@ -76,7 +90,7 @@ namespace JumpKing_GamepadVibration
         {
             try
             {
-                XmlSerializerHelper.Serialize(AssemblyPath + "\\YutaGoto.GamepadVibration.Settings.xml", Preferences);
+                XmlSerializerHelper.Serialize(AssemblyPath + "\\YutaGoto.GamepadVibration.Settings.xml", Preference.Preferences);
             }
             catch (Exception)
             {
