@@ -49,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Menu\ToggleGiantBootsPower.cs" />
     <Compile Include="Menu\ToggleIsKnocked.cs" />
     <Compile Include="Menu\ToggleIsLanded.cs" />
     <Compile Include="Preferences.cs" />
