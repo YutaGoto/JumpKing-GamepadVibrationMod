@@ -10,6 +10,6 @@ namespace JumpKing_GamepadVibration.Menu
 
         protected override void OnToggle() => Preference.Preferences.GiantBootsPower = toggle;
 
-        protected override bool CanChange() => Preference.Preferences.IsLanded;
+        protected override bool CanChange() => Preference.Preferences.IsLanded && Preference.Preferences.IsEnabled;
     }
 }
