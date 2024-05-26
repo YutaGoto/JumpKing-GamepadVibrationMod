@@ -1,5 +1,7 @@
 ﻿using JumpKing.API;
 using JumpKing.BodyCompBehaviours;
+using JumpKing.MiscEntities.WorldItems;
+using JumpKing.MiscEntities.WorldItems.Inventory;
 using JumpKing.Player;
 using JumpKing_GamepadVibration.Model;
 using Microsoft.Xna.Framework;
@@ -27,23 +29,21 @@ namespace JumpKing_GamepadVibration.Behaviour
 
         private void LandedVibration(BodyComp bodyComp)
         {
+            float power = 0f;
             if (bodyComp.IsOnGround)
             {
                 if (isLanded)
                 {
-                    SetVibration(0.3f, 0.3f);
+                    power = InventoryManager.HasItemEnabled(Items.GiantBoots) ? 1.0f : 0.3f;
                     isLanded = false;
-                }
-                else
-                {
-                    SetVibration(0f, 0f);
                 }
             }
             else
             {
                 isLanded = true;
-                SetVibration(0f, 0f);
             }
+
+            SetVibration(power, power);
         }
 
         private void KnockedVibration(BehaviourContext behaviourContext)

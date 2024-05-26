@@ -33,6 +33,14 @@ namespace JumpKing_GamepadVibration
             return new ToggleIsLanded();
         }
 
+
+        [MainMenuItemSetting]
+        [PauseMenuItemSetting]
+        public static ITextToggle AddToggleGiantBootsPower(object factory, GuiFormat format)
+        {
+            return new ToggleGiantBootsPower();
+        }
+
         [MainMenuItemSetting]
         [PauseMenuItemSetting]
         public static ITextToggle AddToggleIsKnocked(object factory, GuiFormat format)
