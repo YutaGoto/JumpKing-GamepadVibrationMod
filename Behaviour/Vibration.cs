@@ -34,7 +34,7 @@ namespace JumpKing_GamepadVibration.Behaviour
             {
                 if (isLanded)
                 {
-                    power = InventoryManager.HasItemEnabled(Items.GiantBoots) ? 1.0f : 0.3f;
+                    power = InventoryManager.HasItemEnabled(Items.GiantBoots) && Preference.Preferences.GiantBootsPower ? 1.0f : 0.3f;
                     isLanded = false;
                 }
             }
