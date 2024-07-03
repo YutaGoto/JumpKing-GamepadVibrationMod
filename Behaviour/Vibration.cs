@@ -21,8 +21,8 @@ namespace JumpKing_GamepadVibration.Behaviour
 
             if (!Preference.Preferences.IsEnabled) return true;
 
-            if (Preference.Preferences.IsLanded) LandedVibration(bodyComp);
             if (Preference.Preferences.IsKnocked) KnockedVibration(behaviourContext);
+            if (Preference.Preferences.IsLanded) LandedVibration(bodyComp);
 
             return true;
         }
